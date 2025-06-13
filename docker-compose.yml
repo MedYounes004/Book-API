@@ -1,0 +1,14 @@
+services:
+  flask-api:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./database:/app/database
+      - ./app.py:/app/app.py
+      - ./models.py:/app/models.py
+    environment:
+      - FLASK_ENV=development
+    restart: unless-stopped
+
+    
