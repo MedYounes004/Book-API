@@ -1,34 +1,50 @@
 from flask import Blueprint, jsonify, request
-from services.book_service import create_book, get_book_by_id , update_book, delete_book
+from services.book_service import get_book_by_id, create_book, update_book, delete_book, signin
 from models.book_model import Book
+from filtres.book_filtre import filter_books_by_author, filter_books_by_year, paginate_books
+from services.JWT_auth import token_required
+from constants.book_constants import welcome_message, Book_added, Book_invalid_data, Book_no_data, Book_not_found, Book_deleted
 
 book_controller = Blueprint('book', __name__)
 
+
 @book_controller.route('/')
 def index():
-    return jsonify({'message': 'Welcome to the Book API'}), 200
+    return welcome_message, 200
+
 
 @book_controller.route('/books', methods=['POST'])
+@token_required
 def add_book():
     data = request.get_json()
     if data:
         create_book(data)
-        return jsonify({'message': 'Book added successfully'}), 200
+        return Book_added, 200
     else:
-        return jsonify({'message': 'Invalid data'}), 400
+        return Book_invalid_data, 400
+
 
 @book_controller.route('/books',methods=['GET'])
 def get_books():
     data = Book.query.all()
     if data :
+        data = paginate_books(data)
+        author = request.args.get('author')
+        year = request.args.get('year')
+        if author:
+            data = filter_books_by_author(data, author)
+        if year:
+            data = filter_books_by_year(data, year)
         return jsonify({'data': book.to_dict() for book in data}), 200
     else:
-        return jsonify({'message': 'No books found'}), 404
+        return Book_no_data, 404
     
+
 @book_controller.route('/books/<int:id>',methods=['GET'])
 def get_book_id(id):
     book = get_book_by_id(id)
-    return jsonify({'data': book}),200 if book else jsonify({'message': 'No books found'}), 404
+    return jsonify({'data': book}),200 if book else Book_not_found
+
 
 @book_controller.route('/books/<int:id>',methods=['PUT'])
 def modify_book(id):
@@ -37,11 +53,23 @@ def modify_book(id):
     if modif:
         return jsonify({'message': 'Book updated successfully', 'data': modif}), 200
     else:
-        return jsonify({'message': 'Book not found'}), 404
+        return Book_not_found, 404
+
 
 @book_controller.route('/books/<int:id>',methods=['DELETE'])
+@token_required
 def remove_book(id):
     if delete_book(id):
-        return jsonify({'message': 'Book deleted successfully'}), 200
+        return Book_deleted, 200
     else:
-        return jsonify({'message': 'Book not found'}), 404
+        return Book_not_found, 404
+
+
+@book_controller.route('/login',methods=['POST'])
+def login():
+    data = request.get_json()
+    token = signin(data)
+    if token:
+        return jsonify({'token': token}), 200
+    else:
+        return Book_invalid_data, 400

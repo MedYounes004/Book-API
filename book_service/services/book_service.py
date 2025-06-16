@@ -1,5 +1,7 @@
 from models import db
 from models.book_model import Book
+from flask import jsonify, request
+from services.JWT_auth import generate_token
 
 def get_book_by_id(id):
     book = Book.query.get(id)
@@ -31,3 +33,14 @@ def delete_book(id):
         return True
     else:
         return False                
+    
+def signin(data):
+    user: jsonify = {
+        'id': 1,
+        'username': 'admin',
+        'password': 'password'
+    }
+    if data:
+        if data.username == user['username'] and data.password == user['password']:
+            return generate_token(user['id'])
+    return None
