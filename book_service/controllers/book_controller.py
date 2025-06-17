@@ -34,9 +34,12 @@ def get_all_books():
     
     
 @book_controller.route('/books/<int:id>',methods=['GET'])
-def get_book_id(id):
+def get_book(id):
     book = get_book_by_id(id)
-    return jsonify({'data': book}),messages["200"] if book else jsonify(messages["Book_not_found"]), messages["404"]
+    if book:
+        return jsonify({'data': book}), messages["200"]  
+    else :
+        return jsonify(messages["Book_not_found"]), messages["404"]
 
 
 @book_controller.route('/books/<int:id>',methods=['PUT'])
@@ -45,7 +48,7 @@ def modify_book(id):
     try:
         data = BookModel(**request.get_json())
         modif = update_book(id, data)
-        if modif:
+        if modif!= None:
             return jsonify({'message': 'Book updated successfully', 'data': modif}), messages["200"]
         else:
             return jsonify(messages["Book_not_found"]), messages["404"]
@@ -56,7 +59,7 @@ def modify_book(id):
 @book_controller.route('/books/<int:id>',methods=['DELETE'])
 @token_required
 def remove_book(id):
-    if delete_book(id):
+    if delete_book(id) is True:
         return jsonify(messages["Book_deleted"]), messages["200"]
     else:
         return jsonify(messages["Book_not_found"]), messages["404"]

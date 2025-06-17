@@ -1,5 +1,3 @@
-from flask import jsonify
-
 messages = {
     "welcome_message" : "message: Welcome to the Book API",
     "Book_added" : "message: Book added successfully",
@@ -13,4 +11,3 @@ messages = {
     "400":400,
     "404":404
 }
-

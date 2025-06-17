@@ -1,5 +1,5 @@
 from models import db
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, Field
 
 class Book(db.Model):
     __tablename__='books'
@@ -21,7 +21,7 @@ class Book(db.Model):
 class BookModel(BaseModel):
     title: str = Field(..., min_length=1, max_length=50)
     author: str = Field(..., min_length=1, max_length=50)
-    year: int = Field(..., ge=1800, le=2025)  # Ensure valid year range
+    year: int = Field(..., ge=1800, le=2025)  
     isbn: str = Field(..., min_length=8, max_length=50)
     class Config:
         extra = 'forbid'

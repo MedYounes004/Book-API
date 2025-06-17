@@ -1,6 +1,6 @@
 from models import db
 from models.book_model import Book
-from flask import jsonify, request
+from flask import jsonify
 from services.JWT_auth import generate_token
 from filtres.book_filtre import apply_filters, apply_pagination
 

@@ -1,5 +1,4 @@
 from flask import request
-from models.book_model import Book
 
 def apply_filters(query, model, filter_fields):
 
