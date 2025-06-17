@@ -8,7 +8,7 @@ def get_book_by_id(id):
     return book.to_dict() if book  else None
 
 def create_book(data):
-    book = Book (title=data['title'], author=data['author'], year=data['year'], isbn=data['isbn'])
+    book = Book (title=data.title, author=data.author, year=data.year, isbn=data.isbn)
     db.session.add(book)
     db.session.commit()
     return book.to_dict()
@@ -16,10 +16,10 @@ def create_book(data):
 def update_book(id, data):
     book = Book.query.get(id)
     if book :
-        book.title = data['title']
-        book.author = data['author']
-        book.year = data['year']
-        book.isbn = data['isbn']
+        book.title = data.title
+        book.author = data.author
+        book.year = data.year
+        book.isbn = data.isbn
         db.session.commit()
         return book.to_dict() 
     else:

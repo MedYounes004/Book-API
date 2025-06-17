@@ -1,8 +1,5 @@
 from flask import jsonify
 
-# book_constants.py
-from flask import jsonify
-
 def welcome_message():
     return jsonify({'message': 'Welcome to the Book API'})
 
@@ -20,6 +17,3 @@ def Book_not_found():
 
 def Book_deleted():
     return jsonify({'message': 'Book deleted successfully'})
-
-
-
