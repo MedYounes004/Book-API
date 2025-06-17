@@ -2,6 +2,7 @@ from models import db
 from models.book_model import Book
 from flask import jsonify, request
 from services.JWT_auth import generate_token
+from filtres.book_filtre import apply_filters, apply_pagination
 
 def get_book_by_id(id):
     book = Book.query.get(id)
@@ -32,7 +33,13 @@ def delete_book(id):
         db.session.commit()
         return True
     else:
-        return False                
+        return False      
+
+def get_books():
+    books = Book.query
+    books = apply_filters(books, Book, ["author", "year"])
+    books = apply_pagination(books)
+    return [book.to_dict() for book in books.all()]
     
 def signin(data):
     user: jsonify = {
