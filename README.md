@@ -74,7 +74,7 @@ source .venv/bin/activate
 pip install Flask Flask-SQLAlchemy pydantic PyJWT flasgger
 ```
 
-> Note: the repository currently includes `book_service/requirements.txt`, but the application also imports `pydantic`, `PyJWT`, and `flasgger`.
+> Note: the repository currently includes `book_service/requirements.txt`, but the application also imports `pydantic`, `PyJWT`, and `flasgger`. Install those packages manually as shown above unless the dependency file is updated.
 
 ## Configuration
 
