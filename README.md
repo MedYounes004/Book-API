@@ -215,7 +215,7 @@ curl -X DELETE http://127.0.0.1:5000/books/1 \
 ## Notes
 
 - The application uses SQLite and stores data in `books.db`.
-- The books list is currently hardcoded to a page size of `2` items per page in the current implementation.
+- The books list is currently hardcoded to a page size of `2` items per page.
 - The database tables are created automatically when the app starts through `python app.py`.
 
 ## Development status
