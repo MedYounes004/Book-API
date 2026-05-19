@@ -68,7 +68,7 @@ Each book contains:
 Example:
 
 ```bash
-cd /home/runner/work/Book-API/Book-API
+cd Book-API
 python -m venv .venv
 source .venv/bin/activate
 pip install Flask Flask-SQLAlchemy pydantic PyJWT flasgger
@@ -88,7 +88,7 @@ If they are not set, the app falls back to built-in development defaults.
 ## Running locally
 
 ```bash
-cd /home/runner/work/Book-API/Book-API
+cd Book-API
 python app.py
 ```
 
@@ -103,7 +103,7 @@ Swagger UI is available at:
 ## Running with Docker Compose
 
 ```bash
-cd /home/runner/work/Book-API/Book-API
+cd Book-API
 docker compose up --build
 ```
 
